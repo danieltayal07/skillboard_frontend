@@ -3,7 +3,7 @@ import axios from 'axios'
 // Use proxy in development (Vite proxies /api to backend), direct URL in production
 // In dev: requests to /api/* are proxied to http://localhost:3000/api/*
 const API_BASE_URL = import.meta.env.VITE_API_URL || 
-  (import.meta.env.DEV ? '' : 'http://localhost:3000')
+  (import.meta.env.DEV ? '' : 'https://skillboard-backend.vercel.app')
 
 const api = axios.create({
   baseURL: API_BASE_URL,
