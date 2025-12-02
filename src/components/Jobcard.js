@@ -3,17 +3,19 @@ import { Link } from "react-router-dom";
 
 function JobCard({ job }) {
   return (
-    <div className="job-card">
+    <div className="card">
       <h3>{job.title}</h3>
-      <p>{job.location}</p>
-      <p>{job.skills}</p>
-      <p>Salary: {job.salary}</p>
+      <p style={{ margin: "8px 0", color: "#64748B" }}>{job.location}</p>
+      <p style={{ color: "#3B82F6" }}>{job.skills}</p>
 
-      <Link to={`/jobs/${job.id}`} className="btn-primary">
-        View Details
-      </Link>
+      <div style={{ marginTop: "12px" }}>
+        <Link to={`/jobs/${job.id}`} className="btn-primary">
+          View Job
+        </Link>
+      </div>
     </div>
   );
 }
+
 
 export default JobCard;

@@ -15,14 +15,14 @@ function Navbar() {
         {!user && (
           <>
             <Link to="/login">Login</Link>
-            <Link to="/signup" className="btn-primary">Signup</Link>
+            <Link to="/signup" className="btn-primary">Sign Up</Link>
           </>
         )}
 
         {user && (
           <>
             <Link to={`/dashboard/${user.role}`}>Dashboard</Link>
-            <button className="btn-logout" onClick={logout}>Logout</button>
+            <button onClick={logout} className="btn-secondary">Logout</button>
           </>
         )}
       </div>
