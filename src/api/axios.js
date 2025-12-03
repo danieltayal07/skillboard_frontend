@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "https://skillboard-backend.vercel.app",
+    baseURL: "https://skillboard-backend.onrender.com",
 });
 
 api.interceptors.request.use((config) => {
