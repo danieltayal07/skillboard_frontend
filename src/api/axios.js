@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://localhost:3001/api",
+    baseURL: "https://skillboard-backend-a3ruozlmc-danieltayal07s-projects.vercel.app",
 });
 
 api.interceptors.request.use((config) => {
