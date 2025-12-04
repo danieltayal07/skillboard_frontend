@@ -20,13 +20,12 @@ function AdminDashboard() {
   const [jobsPage, setJobsPage] = useState(1);
   const [jobsTotalPages, setJobsTotalPages] = useState(1);
 
-  const LIMIT = 10;
+  const LIMIT = 2; 
 
   useEffect(() => {
-    loadUsers(usersPage);
-    loadJobs(jobsPage);
+    loadUsers(1);
+    loadJobs(1);
   }, []);
-
   const loadUsers = async (page = 1) => {
     try {
       const res = await api.get(`/admin/users?page=${page}&limit=${LIMIT}`);
@@ -123,6 +122,7 @@ function AdminDashboard() {
       </div>
 
       <div className="admin-section">
+        
         <div style={{ padding: '0 24px' }}>
             <div className="tabs-container">
                 <button 
@@ -146,7 +146,6 @@ function AdminDashboard() {
             </div>
         </div>
 
-        {/* USERS TAB */}
         {activeTab === 'users' && (
             <div style={{ overflowX: 'auto' }}>
                 {safeUsers.length > 0 ? (
@@ -176,7 +175,6 @@ function AdminDashboard() {
                                         <button 
                                             className="btn-icon-danger" 
                                             onClick={() => deleteUser(u.id)}
-                                            title="Delete User"
                                         >
                                             <Trash2 size={16} />
                                         </button>
@@ -186,34 +184,46 @@ function AdminDashboard() {
                         </tbody>
                     </table>
 
-                    {/* ⭐ USERS PAGINATION */}
-                    <div className="pagination-container" style={{ marginTop: '14px', display: 'flex', justifyContent: 'space-between' }}>
+                    <div className="pagination-container" 
+                        style={{ marginTop: '14px', display: 'flex', justifyContent: 'center', gap: '12px' }}>
+
                       <button 
                         className="btn-secondary"
                         disabled={usersPage === 1}
-                        onClick={() => loadUsers(usersPage - 1)}
+                        onClick={() => {
+                          const newPage = usersPage - 1;
+                          setUsersPage(newPage);
+                          loadUsers(newPage);
+                        }}
                       >
                         Previous
                       </button>
 
-                      <span>Page {usersPage} of {usersTotalPages}</span>
+                      <span style={{ fontWeight: 600 }}>
+                        Page {usersPage} of {usersTotalPages}
+                      </span>
 
                       <button 
                         className="btn-primary"
                         disabled={usersPage === usersTotalPages}
-                        onClick={() => loadUsers(usersPage + 1)}
+                        onClick={() => {
+                          const newPage = usersPage + 1;
+                          setUsersPage(newPage);
+                          loadUsers(newPage);
+                        }}
                       >
                         Next
                       </button>
+
                     </div>
+
                     </>
                 ) : (
-                    <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>No users found.</div>
+                    <div style={{ padding: '20px', textAlign: 'center', color: '#64748b' }}>No users found.</div>
                 )}
             </div>
         )}
 
-        {/* JOBS TAB */}
         {activeTab === 'jobs' && (
             <div style={{ overflowX: 'auto' }}>
                 {safeJobs.length > 0 ? (
@@ -239,7 +249,6 @@ function AdminDashboard() {
                                         <button 
                                             className="btn-icon-danger" 
                                             onClick={() => deleteJob(job.id)}
-                                            title="Delete Job"
                                         >
                                             <Trash2 size={16} />
                                         </button>
@@ -249,26 +258,39 @@ function AdminDashboard() {
                         </tbody>
                     </table>
 
-                    {/* ⭐ JOBS PAGINATION */}
-                    <div className="pagination-container" style={{ marginTop: '14px', display: 'flex', justifyContent: 'space-between' }}>
+                    <div className="pagination-container" 
+                        style={{ marginTop: '14px', display: 'flex', justifyContent: 'center', gap: '12px' }}>
+
                       <button 
                         className="btn-secondary"
                         disabled={jobsPage === 1}
-                        onClick={() => loadJobs(jobsPage - 1)}
+                        onClick={() => {
+                          const newPage = jobsPage - 1;
+                          setJobsPage(newPage);
+                          loadJobs(newPage);
+                        }}
                       >
                         Previous
                       </button>
 
-                      <span>Page {jobsPage} of {jobsTotalPages}</span>
+                      <span style={{ fontWeight: 600 }}>
+                        Page {jobsPage} of {jobsTotalPages}
+                      </span>
 
                       <button 
                         className="btn-primary"
                         disabled={jobsPage === jobsTotalPages}
-                        onClick={() => loadJobs(jobsPage + 1)}
+                        onClick={() => {
+                          const newPage = jobsPage + 1;
+                          setJobsPage(newPage);
+                          loadJobs(newPage);
+                        }}
                       >
                         Next
                       </button>
+
                     </div>
+
                     </>
                 ) : (
                     <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>No jobs found.</div>
