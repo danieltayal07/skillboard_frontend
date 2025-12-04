@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { User, Mail, Lock, Briefcase, Building2, AlertCircle } from "lucide-react";
-// ShieldCheck
+import { User, Mail, Lock, Briefcase, Building2, AlertCircle, ShieldCheck} from "lucide-react";
 import api from "../api/axios";
 
 function Signup() {

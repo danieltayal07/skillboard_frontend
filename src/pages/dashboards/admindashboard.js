@@ -14,22 +14,42 @@ function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("users");
 
+  const [usersPage, setUsersPage] = useState(1);
+  const [usersTotalPages, setUsersTotalPages] = useState(1);
+
+  const [jobsPage, setJobsPage] = useState(1);
+  const [jobsTotalPages, setJobsTotalPages] = useState(1);
+
+  const LIMIT = 10;
+
   useEffect(() => {
-    loadData();
+    loadUsers(usersPage);
+    loadJobs(jobsPage);
   }, []);
 
-  const loadData = async () => {
+  const loadUsers = async (page = 1) => {
     try {
-      setLoading(true);
-      const [usersRes, jobsRes] = await Promise.all([
-        api.get("/admin/users"),
-        api.get("/admin/jobs")
-      ]);
+      const res = await api.get(`/admin/users?page=${page}&limit=${LIMIT}`);
 
-      setUsers(usersRes.data.users || usersRes.data || []);
-      setJobs(jobsRes.data.jobs || jobsRes.data || []);
+      setUsers(res.data.users || []);
+      setUsersPage(res.data.page);
+      setUsersTotalPages(res.data.totalPages);
     } catch (err) {
-      console.error("Failed to load admin data:", err);
+      console.error("Failed to load users:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadJobs = async (page = 1) => {
+    try {
+      const res = await api.get(`/admin/jobs?page=${page}&limit=${LIMIT}`);
+
+      setJobs(res.data.jobs || []);
+      setJobsPage(res.data.page);
+      setJobsTotalPages(res.data.totalPages);
+    } catch (err) {
+      console.error("Failed to load jobs:", err);
     } finally {
       setLoading(false);
     }
@@ -39,7 +59,7 @@ function AdminDashboard() {
     if (window.confirm("Are you sure you want to permanently delete this user?")) {
       try {
         await api.delete(`/admin/users/${id}`);
-        setUsers(users.filter(u => u.id !== id));
+        loadUsers(usersPage);
       } catch (err) {
         alert("Failed to delete user.");
       }
@@ -50,7 +70,7 @@ function AdminDashboard() {
     if (window.confirm("Are you sure you want to delete this job post?")) {
       try {
         await api.delete(`/admin/jobs/${id}`);
-        setJobs(jobs.filter(j => j.id !== id));
+        loadJobs(jobsPage);
       } catch (err) {
         alert("Failed to delete job.");
       }
@@ -103,27 +123,34 @@ function AdminDashboard() {
       </div>
 
       <div className="admin-section">
-        
         <div style={{ padding: '0 24px' }}>
             <div className="tabs-container">
                 <button 
                     className={`tab-btn ${activeTab === 'users' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('users')}
+                    onClick={() => {
+                      setActiveTab('users');
+                      loadUsers(usersPage);
+                    }}
                 >
                     Manage Users
                 </button>
                 <button 
                     className={`tab-btn ${activeTab === 'jobs' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('jobs')}
+                    onClick={() => {
+                      setActiveTab('jobs');
+                      loadJobs(jobsPage);
+                    }}
                 >
                     Manage Jobs
                 </button>
             </div>
         </div>
 
+        {/* USERS TAB */}
         {activeTab === 'users' && (
             <div style={{ overflowX: 'auto' }}>
                 {safeUsers.length > 0 ? (
+                    <>
                     <table className="admin-table">
                         <thead>
                             <tr>
@@ -137,9 +164,7 @@ function AdminDashboard() {
                         <tbody>
                             {safeUsers.map((u) => (
                                 <tr key={u.id}>
-                                    <td>
-                                        <div style={{ fontWeight: 600, color: '#0f172a' }}>{u.name}</div>
-                                    </td>
+                                    <td><div style={{ fontWeight: 600, color: '#0f172a' }}>{u.name}</div></td>
                                     <td>{u.email}</td>
                                     <td>
                                         <span className={`badge ${u.role === 'admin' ? 'shortlisted' : 'applied'}`}>
@@ -160,15 +185,39 @@ function AdminDashboard() {
                             ))}
                         </tbody>
                     </table>
+
+                    {/* ⭐ USERS PAGINATION */}
+                    <div className="pagination-container" style={{ marginTop: '14px', display: 'flex', justifyContent: 'space-between' }}>
+                      <button 
+                        className="btn-secondary"
+                        disabled={usersPage === 1}
+                        onClick={() => loadUsers(usersPage - 1)}
+                      >
+                        Previous
+                      </button>
+
+                      <span>Page {usersPage} of {usersTotalPages}</span>
+
+                      <button 
+                        className="btn-primary"
+                        disabled={usersPage === usersTotalPages}
+                        onClick={() => loadUsers(usersPage + 1)}
+                      >
+                        Next
+                      </button>
+                    </div>
+                    </>
                 ) : (
                     <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>No users found.</div>
                 )}
             </div>
         )}
 
+        {/* JOBS TAB */}
         {activeTab === 'jobs' && (
             <div style={{ overflowX: 'auto' }}>
                 {safeJobs.length > 0 ? (
+                    <>
                     <table className="admin-table">
                         <thead>
                             <tr>
@@ -182,14 +231,10 @@ function AdminDashboard() {
                         <tbody>
                             {safeJobs.map((job) => (
                                 <tr key={job.id}>
-                                    <td>
-                                        <div style={{ fontWeight: 600, color: '#0f172a' }}>{job.title}</div>
-                                    </td>
+                                    <td><div style={{ fontWeight: 600, color: '#0f172a' }}>{job.title}</div></td>
                                     <td>{job.employer?.name || "Unknown"}</td>
                                     <td>{job.location}</td>
-                                    <td>
-                                        <span className="badge reviewing">{job.type || "Full Time"}</span>
-                                    </td>
+                                    <td><span className="badge reviewing">{job.type}</span></td>
                                     <td>
                                         <button 
                                             className="btn-icon-danger" 
@@ -203,6 +248,28 @@ function AdminDashboard() {
                             ))}
                         </tbody>
                     </table>
+
+                    {/* ⭐ JOBS PAGINATION */}
+                    <div className="pagination-container" style={{ marginTop: '14px', display: 'flex', justifyContent: 'space-between' }}>
+                      <button 
+                        className="btn-secondary"
+                        disabled={jobsPage === 1}
+                        onClick={() => loadJobs(jobsPage - 1)}
+                      >
+                        Previous
+                      </button>
+
+                      <span>Page {jobsPage} of {jobsTotalPages}</span>
+
+                      <button 
+                        className="btn-primary"
+                        disabled={jobsPage === jobsTotalPages}
+                        onClick={() => loadJobs(jobsPage + 1)}
+                      >
+                        Next
+                      </button>
+                    </div>
+                    </>
                 ) : (
                     <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>No jobs found.</div>
                 )}

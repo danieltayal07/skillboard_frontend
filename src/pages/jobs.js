@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Search, MapPin, Briefcase } from "lucide-react";
+import React, { useEffect, useState, useCallback } from "react";
+import { Search, MapPin, Briefcase, Filter } from "lucide-react";
 import api from "../api/axios";
 import JobCard from "../components/Jobcard"; 
 import Navbar from "../components/Navbar"; 
@@ -7,62 +7,95 @@ import "../styles/jobs.css";
 
 function Jobs() {
   const [jobs, setJobs] = useState([]);
-  const [filteredJobs, setFilteredJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const [keyword, setKeyword] = useState("");
   const [locationQuery, setLocationQuery] = useState("");
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const res = await api.get("/jobs");
-        const jobList = res.data.jobs || res.data || [];
-        setJobs(jobList);
-        setFilteredJobs(jobList);
-      } catch (error) {
-        console.error("Failed to fetch jobs:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const [sortOption, setSortOption] = useState("newest"); 
+  const [jobType, setJobType] = useState("all");          
+  const [salaryFilter, setSalaryFilter] = useState("all"); 
 
-    fetchJobs();
-  }, []);
+  const fetchJobs = useCallback(async (overrides = {}) => {
+    setLoading(true);
+    try {
+      const params = {};
+  
+      const kw = overrides.keyword !== undefined ? overrides.keyword : keyword;
+      if (kw && kw.trim() !== "") params.keyword = kw.trim();
+  
+      const loc = overrides.location !== undefined ? overrides.location : locationQuery;
+      if (loc && loc.trim() !== "") params.location = loc.trim();
+  
+      const t = overrides.type !== undefined ? overrides.type : jobType;
+      if (t && t !== "all") params.type = t;
+  
+      const s = overrides.salary !== undefined ? overrides.salary : salaryFilter;
+      if (s && s !== "all") params.salary = s;
+  
+      const so = overrides.sort !== undefined ? overrides.sort : sortOption;
+      if (so) params.sort = so;
+  
+      if (overrides.page) params.page = overrides.page;
+      if (overrides.limit) params.limit = overrides.limit;
+  
+      const res = await api.get("/jobs", { params });
 
-  const handleSearch = () => {
-    const term = keyword.toLowerCase();
-    const loc = locationQuery.toLowerCase();
-
-    const results = jobs.filter((job) => {
-      const matchesKeyword = 
-        job.title?.toLowerCase().includes(term) || 
-        job.company?.toLowerCase().includes(term) || 
-        job.skills?.toLowerCase().includes(term);
-
-      const matchesLocation = 
-        job.location?.toLowerCase().includes(loc);
-
-      return (term === "" || matchesKeyword) && (loc === "" || matchesLocation);
-    });
-
-    setFilteredJobs(results);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSearch();
+      const jobList = res.data.jobs || res.data || [];
+      setJobs(jobList);
+    } catch (error) {
+      console.error("Failed to fetch jobs:", error);
+    } finally {
+      setLoading(false);
     }
+  }, [keyword, locationQuery, jobType, salaryFilter, sortOption]);
+  
+
+ const handleKeyDown = (e) => {
+  if (e.key === "Enter") fetchJobs({ keyword, location: locationQuery, page: 1 });
+};
+
+
+  const handleSearchClick = () => {
+    fetchJobs({ keyword, location: locationQuery, page: 1 });
   };
 
-  const clearFilters = () => {
+  useEffect(() => {
+    fetchJobs({ page: 1 });
+  }, [sortOption, jobType, salaryFilter]);
+
+  const handleFilterChange = (setter, value) => {
+    setter(value);
+  };
+
+  useEffect(() => {
+    fetchJobs();
+    // eslint-disable-next-line
+  }, [sortOption, jobType, salaryFilter]); 
+
+
+  const clearAllFilters = () => {
+    // 1. Reset UI State
     setKeyword("");
     setLocationQuery("");
-    setFilteredJobs(jobs);
+    setSortOption("newest");
+    setJobType("all");
+    setSalaryFilter("all");
+
+    fetchJobs({
+      keyword: "",
+      location: "",
+      type: "all",
+      salary: "all",
+      sort: "newest"
+    });
   };
 
   return (
     <div className="jobs-page">
       <Navbar />
+      
+      {/* Hero Section */}
       <div className="jobs-hero">
         <div className="hero-content">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-100 text-orange-600 text-sm font-semibold mb-4">
@@ -73,6 +106,7 @@ function Jobs() {
             Find your <span className="highlight-text">dream job</span> today.
           </h2>
           <p>Browse thousands of job openings from top companies and startups.</p>
+
           <div className="search-container">
             <div className="search-input-group">
               <Search size={20} className="text-gray-400" />
@@ -96,7 +130,7 @@ function Jobs() {
                 onKeyDown={handleKeyDown}
               />
             </div>
-            <button className="search-btn" onClick={handleSearch}>
+            <button className="search-btn" onClick={handleSearchClick}>
               Search
             </button>
           </div>
@@ -105,12 +139,61 @@ function Jobs() {
 
       <div className="jobs-container">
         
-        {!loading && (
+        {/* Filter Bar */}
+        <div className="filters-bar">
           <div className="results-count">
-            Showing {filteredJobs.length} {filteredJobs.length === 1 ? 'job' : 'jobs'} available
+             Showing {jobs.length} {jobs.length === 1 ? 'job' : 'jobs'}
           </div>
-        )}
 
+          <div className="filter-group">
+            {/* Sort Dropdown */}
+            <select 
+              className="filter-select"
+              value={sortOption}
+              onChange={(e) => handleFilterChange(setSortOption, e.target.value)}
+            >
+              <option value="newest">Sort: Newest</option>
+              <option value="salary-high">Salary: High to Low</option>
+              <option value="salary-low">Salary: Low to High</option>
+            </select>
+
+            {/* Type Filter */}
+            <select 
+              className="filter-select"
+              value={jobType}
+              onChange={(e) => handleFilterChange(setJobType, e.target.value)}
+            >
+              <option value="all">Type: All</option>
+              <option value="Full Time">Full Time</option>
+              <option value="Part Time">Part Time</option>
+              <option value="Contract">Contract</option>
+              <option value="Internship">Internship</option>
+            </select>
+
+            {/* Salary Filter */}
+            <select 
+              className="filter-select"
+              value={salaryFilter}
+              onChange={(e) => handleFilterChange(setSalaryFilter, e.target.value)}
+            >
+              <option value="all">Salary: Any</option>
+              <option value="50k+">$50k+</option>
+              <option value="100k+">$100k+</option>
+            </select>
+            
+            {/* Reset Button */}
+            {(keyword || locationQuery || jobType !== 'all' || salaryFilter !== 'all') && (
+              <button 
+                onClick={clearAllFilters}
+                className="text-sm font-semibold text-orange-600 hover:text-orange-700 ml-2"
+              >
+                Clear All
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Content Area */}
         {loading ? (
           <div className="loading-state">
             <div className="animate-pulse flex flex-col items-center">
@@ -120,19 +203,22 @@ function Jobs() {
           </div>
         ) : (
           <>
-            {filteredJobs.length > 0 ? (
+            {jobs.length > 0 ? (
               <div className="jobs-grid">
-                {filteredJobs.map((job) => (
+                {jobs.map((job) => (
                   <JobCard key={job.id} job={job} />
                 ))}
               </div>
             ) : (
               <div className="empty-state">
-                <p>No jobs found matching your criteria.</p>
+                <div style={{ background: '#f1f5f9', width: '60px', height: '60px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
+                  <Filter size={30} color="#94a3b8" />
+                </div>
+                <h3>No jobs found matching your criteria.</h3>
+                <p>Try adjusting your search terms or filters.</p>
                 <button 
-                  onClick={clearFilters}
-                  className="mt-4 text-orange-600 font-medium hover:underline"
-                  style={{ backgroundColor: 'orange', padding: '10px' , borderRadius: '5px', cursor: 'pointer'}}
+                  onClick={clearAllFilters}
+                  style={{ marginTop: '1rem', border: '1px solid #f97316', color: '#f97316', background: 'transparent', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontWeight: 600 }}
                 >
                   Clear Filters & Show All
                 </button>
