@@ -1,115 +1,113 @@
-# Skill Board - Frontend
+# SkillBoard – Frontend  
+### Modern Job Portal UI | React + Axios + Context API | Fully Hosted on Vercel
 
-A modern React.js frontend application for Skill Board with authentication and a beautiful UI.
+SkillBoard is a modern job search platform frontend built with **React**, offering job listings, filtering, sorting, authentication views, dashboards, and a clean, modern UI.
 
-## Features
+### 🔗 Live Demo  
+https://skillboard-frontend.vercel.app/
 
-- ✅ User authentication (Login & Signup)
-- ✅ Protected routes
-- ✅ Modern, responsive UI design
-- ✅ JWT token-based authentication
-- ✅ Beautiful gradient backgrounds and animations
-- ✅ Dashboard with user information
+### 🔗 Backend API  
+https://skillboard-backend.onrender.com/api
 
-## Tech Stack
+---
 
-- **React 18** - UI library
-- **React Router** - Routing
-- **Vite** - Build tool
-- **Axios** - HTTP client
-- **CSS3** - Styling with modern features
+## 🚀 Features
 
-## Setup
+### 🔐 Authentication UI
+- Login & Signup pages  
+- JWT-based authentication handled via Axios interceptor  
+- Role-based navigation (`applicant`, `employer`, `admin`)
 
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+### 🧭 Job Search & Filters
+- Keyword search (title, skills, company)
+- Location search
+- Sort by salary / newest
+- Filter by job type & salary range
+- Pagination through backend API
 
-2. **Create environment file (optional):**
-   Create a `.env` file if you need to customize the API URL:
-   ```env
-   VITE_API_URL=http://localhost:3000
-   ```
+### 📊 Dashboards
+#### Applicant Dashboard
+- View applied jobs  
+- See application statuses  
 
-3. **Start development server:**
-   ```bash
-   npm run dev
-   ```
+#### Employer Dashboard
+- Post jobs  
+- Manage job listings  
+- Edit and delete jobs  
 
-   The app will be available at `http://localhost:3001`
+#### Admin Dashboard
+- View all users (pagination)  
+- View all jobs (pagination)  
+- Delete users or jobs  
 
-4. **Build for production:**
-   ```bash
-   npm run build
-   ```
+### 🎨 UI
+- Modern, clean theme inspired by TealHQ  
+- Fully responsive  
+- Custom components and styling  
 
-5. **Preview production build:**
-   ```bash
-   npm run preview
-   ```
+---
 
-## Project Structure
+## 🏗️ Tech Stack
 
-```
-frontend/
+| Tech | Purpose |
+|------|---------|
+| React.js | UI Framework |
+| Axios | API handling |
+| React Router | Navigation |
+| Context API | Auth state |
+| Lucide Icons | Icons |
+| CSS | Styling |
+| Vercel | Deployment |
+
+---
+
+## 📁 Folder Structure
+skillboard-frontend/
+├── public/
 ├── src/
+│   ├── api/
+│   │    └── axios.js
 │   ├── components/
-│   │   ├── Login.jsx          # Login component
-│   │   ├── Signup.jsx         # Signup component
-│   │   ├── Dashboard.jsx      # Dashboard component
-│   │   ├── Auth.css           # Auth page styles
-│   │   └── Dashboard.css      # Dashboard styles
 │   ├── context/
-│   │   └── AuthContext.jsx    # Authentication context
-│   ├── services/
-│   │   └── api.js             # API service layer
-│   ├── App.jsx                # Main app component
-│   ├── App.css                # App styles
-│   ├── main.jsx               # Entry point
-│   └── index.css              # Global styles
-├── index.html                 # HTML template
-├── vite.config.js             # Vite configuration
+│   │    └── AuthContext.js
+│   ├── pages/
+│   ├── styles/
+│   ├── App.js
+│   ├── index.js
 └── package.json
+
+---
+
+## 🔗 API Integration
+
+Frontend uses a custom Axios instance:
+
 ```
+import axios from "axios";
 
-## API Integration
+const api = axios.create({
+  baseURL: "https://skillboard-backend.onrender.com/api",
+});
 
-The frontend connects to the backend API at `http://localhost:3000` by default. Make sure your backend server is running before using the frontend.
+api.interceptors.request.use((config) => {
+  const user = JSON.parse(localStorage.getItem("skillboard-user"));
+  if (user?.token) config.headers.Authorization = `Bearer ${user.token}`;
+  return config;
+});
 
-### Available Routes
+export default api;
+```
+⚙️ Installation & Setup
 
-- `/login` - Login page
-- `/signup` - Signup page
-- `/dashboard` - Protected dashboard (requires authentication)
-- `/` - Redirects to dashboard
+1. Install dependencies
+   ```npm install```
+2. Start development server
+   ```npm start```
+3. Create production build
+   ```npm run build```
 
-## Features
+🚀 Deployment
 
-### Authentication
-- Login with email and password
-- Signup with name, email, and password
-- Automatic login after successful signup
-- Protected routes that redirect to login if not authenticated
-- Token stored in localStorage
+Frontend is deployed on Vercel:
 
-### UI/UX
-- Modern gradient design
-- Smooth animations and transitions
-- Responsive design for mobile and desktop
-- Loading states
-- Error handling and display
-- Form validation
-
-## Development
-
-The app uses Vite for fast development with hot module replacement (HMR). Changes to your code will be reflected immediately in the browser.
-
-## Notes
-
-- The frontend expects the backend to be running on `http://localhost:3000`
-- JWT tokens are stored in localStorage
-- The app automatically redirects to login if the token is invalid or expired
-- All API requests include the authentication token in the Authorization header
-
-# skillboard_frontend
+https://skillboard-frontend.vercel.app/
