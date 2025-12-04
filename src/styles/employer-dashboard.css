@@ -1,0 +1,258 @@
+.employer-dashboard {
+    min-height: 100vh;
+    background-color: #f8fafc;
+    padding: 100px 2rem 2rem 2rem;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .emp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  
+  .emp-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+  }
+  
+  .emp-header p {
+    color: #64748b;
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+  }
+  
+  .btn-post-job {
+    background-color: #0f172a;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .btn-post-job:hover {
+    background-color: #f97316;
+  }
+  
+  .emp-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .emp-stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    transition: transform 0.2s;
+  }
+  
+  .emp-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .emp-stat-content h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0.5rem 0 0 0;
+  }
+  
+  .emp-stat-content p {
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  .emp-icon-wrapper {
+    padding: 0.75rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .emp-section {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+  
+  .emp-section-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .emp-section-header h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0;
+  }
+  
+  .emp-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .emp-table th {
+    text-align: left;
+    padding: 1rem 1.5rem;
+    background-color: #f8fafc;
+    color: #64748b;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .emp-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    font-size: 0.9rem;
+    vertical-align: middle;
+  }
+  
+  .emp-table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .text-bold { font-weight: 600; color: #0f172a; }
+  .text-sub { font-size: 0.85rem; color: #64748b; }
+  
+  .status-badge {
+    display: inline-flex;
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(15, 23, 42, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .modal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+  }
+  
+  .btn-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #64748b;
+    padding: 4px;
+  }
+  
+  .btn-close:hover { color: #0f172a; }
+  
+  .status-select {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background-color: white;
+    font-size: 0.85rem;
+    color: #0f172a;
+    cursor: pointer;
+    outline: none;
+    font-weight: 500;
+  }
+  
+  .status-select:focus {
+    border-color: #f97316;
+  }
+  
+  .btn-icon-danger {
+    background: #fef2f2;
+    border: 1px solid #fee2e2;
+    color: #ef4444;
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  
+  .btn-icon-danger:hover {
+    background: #dc2626;
+    color: white;
+    border-color: #dc2626;
+  }
+  
+  .status-badge.applied { background: #eff6ff; color: #3b82f6; }
+  .status-badge.shortlisted { background: #f0fdf4; color: #16a34a; }
+  .status-badge.rejected { background: #fef2f2; color: #dc2626; }
+  .status-badge.closed { background: #f1f5f9; color: #64748b; }
+  
+  .emp-empty {
+    padding: 3rem;
+    text-align: center;
+    color: #64748b;
+  }
+  
+  @media (max-width: 768px) {
+    .emp-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .emp-stats-grid { grid-template-columns: 1fr; }
+    .emp-table { display: block; overflow-x: auto; }
+  }

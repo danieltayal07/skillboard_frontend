@@ -1,0 +1,163 @@
+.job-details-page {
+    min-height: 100vh;
+    background-color: #f8fafc;
+    padding: 100px 2rem 2rem 2rem;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .job-header-section {
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 3rem 0;
+  }
+  
+  .header-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+  
+  .job-title-block h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.02em;
+  }
+  
+  .company-name {
+    font-size: 1.125rem;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+  }
+  
+  .job-meta-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #475569;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+  
+  .job-content-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2.5rem;
+  }
+  
+  .description-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 2.5rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  
+  .description-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 0.75rem;
+  }
+  
+  .desc-text {
+    color: #334155;
+    line-height: 1.8;
+    font-size: 1rem;
+    white-space: pre-line;
+  }
+  
+  .details-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .sidebar-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+  }
+  
+  .sidebar-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+  }
+  
+  .skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .skill-tag {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  
+  .apply-btn-lg {
+    background-color: #f97316;
+    color: white;
+    border: none;
+    padding: 0.875rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.2);
+  }
+  
+  .apply-btn-lg:hover {
+    background-color: #ea580c;
+    transform: translateY(-1px);
+  }
+  
+  .btn-secondary {
+    background: white;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    padding: 0.875rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .btn-secondary:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+  }
+  
+  @media (max-width: 768px) {
+    .header-content { flex-direction: column; }
+    .job-content-container { grid-template-columns: 1fr; }
+    .header-actions { width: 100%; display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .apply-btn-lg, .btn-secondary { flex: 1; text-align: center; }
+  }

@@ -1,0 +1,207 @@
+.app-dashboard {
+    min-height: 100vh;
+    background-color: #f8fafc;
+    padding: 100px 2rem 2rem 2rem;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .welcome-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  }
+  
+  .welcome-text h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .welcome-text p {
+    color: #64748b;
+    font-size: 1rem;
+  }
+  
+  .action-btn {
+    background-color: #f97316;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .action-btn:hover {
+    background-color: #ea580c;
+  }
+  
+  .app-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .app-stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s;
+  }
+  
+  .app-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  }
+  
+  .stat-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .stat-info h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+  }
+  
+  .stat-info p {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin: 0;
+  }
+  
+  .applications-section {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+  }
+  
+  .section-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .section-header h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0;
+  }
+  
+  .app-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .app-table th {
+    text-align: left;
+    padding: 1rem 2rem;
+    background-color: #f8fafc;
+    color: #64748b;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+  
+  .app-table td {
+    padding: 1.25rem 2rem;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+  }
+  
+  .job-cell {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .job-title {
+    font-weight: 600;
+    color: #0f172a;
+    font-size: 0.95rem;
+  }
+  
+  .company-name {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-top: 2px;
+  }
+  
+  .date-text {
+    color: #64748b;
+    font-size: 0.9rem;
+  }
+  
+  .view-link {
+    color: #f97316;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  
+  .view-link:hover {
+    text-decoration: underline;
+  }
+  
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  .status-pill.applied { background: #eff6ff; color: #3b82f6; } 
+  .status-pill.shortlisted { background: #f0fdf4; color: #16a34a; }
+  .status-pill.interview { background: #fef3c7; color: #d97706; } 
+  .status-pill.rejected { background: #fef2f2; color: #dc2626; }
+  
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+  
+  .empty-state h3 {
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+  }
+  
+  .empty-state p {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .app-dashboard { padding: 1rem; }
+    .welcome-section { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .app-table th, .app-table td { padding: 1rem; }
+  }
