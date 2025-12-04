@@ -85,13 +85,13 @@ function Signup() {
               </div>
 
               {/* Admin */}
-              {/* <div 
+              <div 
                 className={`role-card ${form.role === 'admin' ? 'active' : ''}`}
                 onClick={() => handleRoleSelect('admin')}
               >
                 <ShieldCheck size={24} className={form.role === 'admin' ? 'text-orange-500' : 'text-slate-400'} />
                 <h4>Admin</h4>
-              </div> */}
+              </div>
 
             </div>
           </div>
